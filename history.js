@@ -38,7 +38,6 @@ $( document ).ready( function(){
 		updateContent( data );
 
 		// Add an item to the history log
-		debugger
 		history.pushState( data, event.target.textContent, event.target.href );
 	}
 
@@ -49,8 +48,7 @@ $( document ).ready( function(){
 
 	// Revert to a previously saved state
 	$( window ).on( 'popstate', function( event ) {
-		debugger
-		updateContent( event.state );
+		updateContent( event.originalEvent.state );
 	});
 
 	// Initial state

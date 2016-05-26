@@ -21,48 +21,41 @@ $( document ).ready( function(){
 			}
 		};
 
-    function updateContent( data ) {
+	function updateContent( data ) {
 		if ( data == null )
 			return;
 
 		contentEl.text( data.content );
 		photoEl.attr( 'src', data.photo );
-    }
+	}
 
-    function clickHandler( event ) {
-    	
+	function clickHandler( event ) {
 		event.preventDefault();
 
-		// var cat = $( event.target ).attr( 'href' ).split( '/' ).pop(),
-		// 	data = cats[ cat ] || null;
+		var cat = $( event.target ).attr( 'href' ).split( '/' ).pop(),
+			data = cats[ cat ] || null;
 
-		// updateContent( data );
-		// console.log( data );
-		// // Add an item to the history log
-		// debugger
-		// history.pushState( data, event.target.textContent, event.target.href );
-      var cat = event.target.getAttribute('href').split('/').pop(),
-          data = cats[cat] || null; // In reality this could be an AJAX request
+		updateContent( data );
 
-      updateContent(data);
+		// Add an item to the history log
+		debugger
+		history.pushState( data, event.target.textContent, event.target.href );
+	}
 
-      // Add an item to the history log
-      history.pushState(data, event.target.textContent, event.target.href);
-    }
-
-    // Attach event listeners
-    for ( var i = 0, l = linkEls.length; i < l; i++ ) {
+	// Attach event listeners
+	for ( var i = 0, l = linkEls.length; i < l; i++ ) {
 		$( linkEls[ i ] ).on( 'click', clickHandler );
-    }
+	}
 
-    // Revert to a previously saved state
-    $( window ).on( 'popstate', function( event ) {
+	// Revert to a previously saved state
+	$( window ).on( 'popstate', function( event ) {
+		debugger
 		updateContent( event.state );
-    });
+	});
 
-	// Store the initial content so we can revisit it later
-	// history.replaceState({
-	// 	content: contentEl.text(),
-	// 	photo: photoEl.attr( 'src' ),
-	// }, document.title, document.location.href );
+	// Initial state
+	history.replaceState({
+		content: contentEl.text(),
+		photo: photoEl.attr( 'src' ),
+	}, document.title, document.location.href );
 });
